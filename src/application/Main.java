@@ -20,12 +20,15 @@ public class Main {
 
         //            Get information
         List<Person> list = new ArrayList<>();
+        System.out.println("           Calculate BMI software");
+        System.out.println("------------------------------------------");
 
         System.out.print("How many people will have the BMI calculate? ");
         int n = input.nextInt();
+        System.out.println();
         input.nextLine();
 
-        System.out.println("                   Menu                  ");
+        System.out.println("                   Menu                   ");
         System.out.println("------------------------------------------");
 
         for (int i = 0; i < n; i++) {
@@ -39,11 +42,12 @@ public class Main {
             input.nextLine();
             System.out.println();
 
-            list.add(new Person(name, height, weight, Calculator.calculateBmi(height, weight)));
+            list.add(new Person(name, height, weight, Calculator.calculateBmi(height, weight), Calculator.status()));
         }
 
         //            Show information
-        System.out.println("BMI(s) registered of each person:");
+        System.out.println("      BMI(s) registered of each person:   ");
+        System.out.println("------------------------------------------");
         for (Person p : list) {
             System.out.println(p);
         }
