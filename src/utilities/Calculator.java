@@ -36,6 +36,7 @@ public class Calculator {
             status = "Obese (Class III)";
         }
         return status;
-
     }
+    
+    
 }
