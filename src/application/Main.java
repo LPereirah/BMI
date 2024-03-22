@@ -2,7 +2,7 @@ package application;
 
 import model.entities.Person;
 import model.exceptions.ProcessException;
-import utilities.Calculator;
+import model.entities.Calculator;
 
 import java.util.*;
 

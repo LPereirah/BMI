@@ -1,4 +1,4 @@
-package utilities;
+package model.entities;
 
 public class Calculator {
 
