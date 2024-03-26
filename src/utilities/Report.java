@@ -1,5 +1,6 @@
 package utilities;
 
+import application.Main;
 import model.entities.Person;
 
 import java.io.BufferedWriter;
@@ -7,53 +8,60 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 public class Report {
 
-    private static String path = "E:\\Programming\\Java\\Projects\\IdeaProjects\\Texts\\report.txt";
+    public static void createReport(List<Person> list) {
+        while (true) {
+            try {
+                System.out.print("You want to create a BMI's report data? [y/n] ");
+                String choice = Main.sc.next();
+                choice = choice.toLowerCase();
+                choice = choice.trim();
 
-    // Error. Trying to fix.
-
-//    public static void createReport(List<Person> list){
-//        try{
-//            Scanner sc = new Scanner(System.in);
-//            System.out.print("You want to create a BMI's report data? [y/n] ");
-//
-//            String choice = sc.next();
-//            choice = choice.toLowerCase();
-//            choice = choice.trim();
-//
-//            if (choice.equals("y")){
-//                createArchive(list);
-//            }
-//            else if(choice.equals("n")){
-//                System.out.println("Ending...");
-//            }
-//            else{
-//                System.out.println("Enter only with 'Y' or 'N'!");
-//            }
-//        }
-//        catch(InputMismatchException e){
-//            System.out.println("Enter with the letter required!");
-//        }
-//        catch (Exception e){
-//            System.out.println();
-//            System.out.println("Unexpected error!" +"\n" + "StackTrace:");
-//            System.out.println("--------------------------------------");
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-    public static void createArchive(List<Person> list){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))){
-            for (Person p : list){
-                bw.write(p.toString());
+                if (choice.equals("y")) {
+                    createArchive(list);
+                    break;
+                }
+                else if (choice.equals("n")) {
+                    System.out.println("Ending...");
+                    break;
+                }
+                else {
+                    System.out.println("Enter only with 'Y' or 'N'!");
+                    System.out.println();
+                    continue;
+                }
             }
-            System.out.println("Report created success!");
+            catch (InputMismatchException e) {
+                System.out.println("Enter with the letter required!");
+            }
+            catch (Exception e) {
+                System.out.println();
+                System.out.println("Unexpected error!" + "\n" + "StackTrace:");
+                System.out.println("--------------------------------------");
+                e.printStackTrace();
+            }
+
         }
-        catch(IOException e){
+    }
+
+    private static void createArchive(List<Person> list) {
+        System.out.print("Enter the folder you want to save: ");
+        String path = Main.sc.next();
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+            bw.write("Registered BMI(s):");
+            bw.write("------------------");
+            bw.newLine();
+            for (Person p : list) {
+                bw.write(p.toString());
+                bw.write("------------------");
+                bw.newLine();
+            }
+            System.out.println("Report created with success!");
+            System.out.println("Folder: " + path);
+        } catch (IOException e) {
             System.out.println("######Error######");
             e.printStackTrace();
         }

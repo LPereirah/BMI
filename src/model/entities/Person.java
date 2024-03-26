@@ -15,20 +15,8 @@ public class Person {
         this.status = status;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
     public static void validate(String name)throws ProcessException {
-        name = name.replaceAll("\\s", "");
+        name = name.replaceAll("\\s", ""); // Gather the words, without blank spaces, to validate.
         if (isNumber(name)){
             throw new ProcessException("Enter a name, not a number!");
         }
@@ -47,11 +35,11 @@ public class Person {
 
     @Override
     public String toString(){
-        return String.format("Name: %s%n", name)
-             + String.format("Height (m): %.2f%n", height)
-             + String.format("Weight (Kg): %.2f%n", weight)
-             + String.format("BMI: %.2f%n", bmi)
-             + String.format("Status: %s%n", status);
+        return String.format("Name: %s,%n", name)
+             + String.format("Height (m): %.2f,%n", height)
+             + String.format("Weight (Kg): %.2f,%n", weight)
+             + String.format("BMI: %.2f,%n", bmi)
+             + String.format("Status: %s.%n", status);
     }
 
 }
