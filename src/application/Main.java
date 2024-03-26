@@ -3,6 +3,7 @@ package application;
 import model.entities.Person;
 import model.exceptions.ProcessException;
 import model.entities.Calculator;
+import utilities.Report;
 
 import java.util.*;
 
@@ -14,7 +15,6 @@ public class Main {
 
 		// Get information
 		List<Person> list = new ArrayList<>();
-
 
 		while (true) {
 			try {
@@ -50,22 +50,27 @@ public class Main {
 				for (Person p : list) {
 					System.out.println(p);
 				}
+				Report.createReport(list);
 			}
 			catch (InputMismatchException e) {
 				System.out.println("Format invalid! Insert only numbers.");
 				System.out.println("Try again, please.\n");
 				input.nextLine();
 				continue;
-			} catch (ProcessException e) {
+			}
+			catch (ProcessException e) {
 				System.out.println("Error: " + e.getMessage());
 				System.out.println();
 				continue;
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				System.out.println("Something went wrong!");
 				e.printStackTrace();
 				continue;
 			}
+
 			break;
 		}
 	}
+
 }
