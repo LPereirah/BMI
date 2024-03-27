@@ -5,18 +5,21 @@ import model.exceptions.ProcessException;
 import model.entities.Calculator;
 import utilities.Report;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class Main{
 
-	public static Scanner sc;
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
-		sc = new Scanner(System.in);
 
-		// Get information
+		Scanner sc = new Scanner(System.in);
 		List<Person> list = new ArrayList<>();
 
+		String answer = null;
+
+		// Get information
 		while (true) {
 			try {
 				System.out.println("         BMI Calculator Program");
@@ -52,7 +55,17 @@ public class Main{
 				}
 
 				// Create a report
-				Report.createReport(list);
+				System.out.print("You want to create a BMI report? [y/n] ");
+				answer = sc.next();
+				System.out.println(Report.createArchive(list, answer));
+			}
+			catch (FileNotFoundException e){
+				System.out.println(e.getMessage());
+				System.out.println();
+				continue;
+			}
+			catch (IOException e) {
+				System.out.println(e.getMessage());
 			}
 			catch (InputMismatchException e) {
 				System.out.println("Format invalid! Insert only numbers.");
@@ -61,7 +74,7 @@ public class Main{
 				continue;
 			}
 			catch (ProcessException e) {
-				System.out.println("Error: " + e.getMessage());
+				System.out.println(e.getMessage());
 				System.out.println();
 				continue;
 			}
@@ -73,6 +86,9 @@ public class Main{
 
 			break;
 		}
+		sc.close();
+		System.out.println();
+		System.out.println("Ending program...");
 	}
 
 }

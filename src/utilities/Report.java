@@ -1,69 +1,67 @@
 package utilities;
 
-import application.Main;
 import model.entities.Person;
+import model.exceptions.ProcessException;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Report {
 
-    public static void createReport(List<Person> list) {
-        while (true) {
-            try {
-                System.out.print("You want to create a BMI's report data? [y/n] ");
-                String choice = Main.sc.next();
-                choice = choice.toLowerCase();
-                choice = choice.trim();
+    public static String createArchive(List<Person> list, String answer) throws ProcessException, IOException{
+        Scanner input = new Scanner(System.in);
+        validateAnswer(answer);
 
-                if (choice.equals("y")) {
-                    createArchive(list);
-                    break;
+
+        if (validateAnswer(answer)) {
+            System.out.print("Enter address folder to save the report: ");
+            String path = input.next();
+            System.out.println();
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+                bw.write("Registered BMI(s):");
+                bw.newLine();
+                bw.write("------------------");
+                bw.newLine();
+
+                for (Person p : list) {
+                    bw.write(p.toString());
+                    bw.newLine();
                 }
-                else if (choice.equals("n")) {
-                    System.out.println("Ending...");
-                    break;
-                }
-                else {
-                    System.out.println("Enter only with 'Y' or 'N'!");
-                    System.out.println();
-                    continue;
-                }
+
+                return "Report created with success!" + "\n" + String.format("Folder: %s", path);
             }
-            catch (InputMismatchException e) {
-                System.out.println("Enter with the letter required!");
+            catch (FileNotFoundException e){
+                throw new FileNotFoundException("File not found. Select a file, not a folder!");
             }
-            catch (Exception e) {
-                System.out.println();
-                System.out.println("Unexpected error!" + "\n" + "StackTrace:");
-                System.out.println("--------------------------------------");
+            catch(IOException e) {
                 e.printStackTrace();
+                throw new IOException("Something unexpected went wrong.");
             }
 
         }
+        else {
+            input.close();
+            return "";
+        }
     }
 
-    private static void createArchive(List<Person> list) {
-        System.out.print("Enter the folder you want to save: ");
-        String path = Main.sc.next();
+    private static boolean validateAnswer(String answer) throws ProcessException{
+        answer = answer.toLowerCase();
+        answer = answer.trim();
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-            bw.write("Registered BMI(s):");
-            bw.write("------------------");
-            bw.newLine();
-            for (Person p : list) {
-                bw.write(p.toString());
-                bw.write("------------------");
-                bw.newLine();
-            }
-            System.out.println("Report created with success!");
-            System.out.println("Folder: " + path);
-        } catch (IOException e) {
-            System.out.println("######Error######");
-            e.printStackTrace();
+        if (answer.equals("y")){
+            return true;
+        }
+        else if (answer.equals("n")) {
+            return false;
+        }
+        else {
+            throw new ProcessException("Enter only with 'Y' or 'N'!");
         }
     }
 
